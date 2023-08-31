@@ -8,6 +8,8 @@ package main
 // 	- Handles concurrency very-vell
 // 	- Good for mixing CPU and IO-bound workloads
 // 	- Powerful toolchain. No need for formatters and linters, already built-in
+//  - Better default dependency management
+
 // - Notable differences
 // 	- Focused on using stdlib and limiting dependencies
 // 	- Simple language with less features
@@ -37,7 +39,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/pixisai/metrics-aggregator/adapters/db"
 )
 
