@@ -1,5 +1,27 @@
 package main
 
+// - Why consider Go?
+// 	- Productive from day 1
+// 	- Portable
+// 	- Fast
+// 		- Much less CPU and RAM footprint than Python
+// 	- Handles concurrency very-vell
+// 	- Good for mixing CPU and IO-bound workloads
+// 	- Powerful toolchain. No need for formatters and linters, already built-in
+// - Notable differences
+// 	- Focused on using stdlib and limiting dependencies
+// 	- Simple language with less features
+// 	- Explicit error handling
+// 	- Easy to write testable code, powerful automated testing tools right out-of-the-box
+// 		- Unit tests
+// 		- Fuzzy tests
+// 		- Benchmarks
+// - Running Go programs
+// 	- `go run` - script mode
+// 	- `go build` - compile to binary
+// 		- `GOARCH`
+// - Database access with Go
+
 // go generate is a tool that automates the running of commands when you run "go generate".
 //go:generate migrate -database postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -path adapters/db/scripts/migrations up
 //go:generate sqlc generate
