@@ -22,6 +22,7 @@ import (
 const DB_URL = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
 
 func main() {
+	ctx := context.Background()
 	generateDataCmd := flag.NewFlagSet("generate-data", flag.ExitOnError)
 	aggregateDataCmd := flag.NewFlagSet("aggregate-data", flag.ExitOnError)
 
@@ -39,7 +40,7 @@ func main() {
 		return
 	}
 
-	conn := dbConnect(context.Background())
+	conn := dbConnect(ctx)
 	defer conn.Close()
 
 	q := db.New(conn)
@@ -50,9 +51,9 @@ func main() {
 		generateTestData(q, *nAdAccounts, *nCampaigns, *nAds, *nMetrics, *nDays)
 	case "aggregate-data":
 		aggregateDataCmd.Parse(flag.Args()[1:])
-		aggregateDataNaive(q, context.Background())
-		// aggregateDataParallelCampaigns(q, context.Background())
-		// aggregateDataParallelAdAccounts(q, context.Background())
+		aggregateDataNaive(q, ctx)
+		// aggregateDataParallelCampaigns(q, ctx))
+		// aggregateDataParallelAdAccounts(q, ctx)
 	default:
 		fmt.Println("generate-data or aggregate-data subcommand is required")
 		return
@@ -424,7 +425,7 @@ func aggregateDataParallelCampaigns(q *db.Queries, ctx context.Context) {
 
 // Connect to the database
 func dbConnect(ctx context.Context) *pgxpool.Pool {
-	conn, err := pgxpool.New(context.Background(), DB_URL)
+	conn, err := pgxpool.New(ctx, DB_URL)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
