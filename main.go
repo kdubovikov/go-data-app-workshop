@@ -74,9 +74,9 @@ func main() {
 		generateTestData(q, *nAdAccounts, *nCampaigns, *nAds, *nMetrics, *nDays)
 	case "aggregate-data":
 		aggregateDataCmd.Parse(flag.Args()[1:])
-		aggregateDataNaive(q, ctx)
-		// aggregateDataParallelCampaigns(q, ctx))
-		// aggregateDataParallelAdAccounts(q, ctx)
+		// aggregateDataNaive(q, ctx)
+		// aggregateDataParallelCampaigns(q, ctx)
+		aggregateDataParallelAdAccounts(q, ctx)
 	default:
 		fmt.Println("generate-data or aggregate-data subcommand is required")
 		return
@@ -137,26 +137,30 @@ func generateTestData(q *db.Queries, nAdAccounts int, nCampaigns int, nAds int, 
 	}
 
 	// createMetricsNaive(ctx, *q, nMetrics, nAds, nDays)
-	createMetricsFast(ctx, *q, nMetrics, nAds, nDays)
-	// createMetricsFastParallel(ctx, *q, nMetrics, nAds, nDays, 8)
+	// createMetricsFast(ctx, *q, nMetrics, nAds, nDays)
+	createMetricsFastParallel(ctx, *q, nMetrics, nAds, nDays, 8)
 }
 
 // Clear all test data from the database
 func clearTestData(q *db.Queries, ctx context.Context) {
 	err := q.ClearMetrics(ctx)
 	if err != nil {
+		log.Printf("Error clearing metrics: %v", err)
 		panic(err)
 	}
 	err = q.ClearAds(ctx)
 	if err != nil {
+		log.Printf("Error clearing ads: %v", err)
 		panic(err)
 	}
 	err = q.ClearCampaigns(ctx)
 	if err != nil {
+		log.Printf("Error clearing campaigns: %v", err)
 		panic(err)
 	}
 	err = q.ClearAdAccounts(ctx)
 	if err != nil {
+		log.Printf("Error clearing ad accounts: %v", err)
 		panic(err)
 	}
 }
@@ -452,9 +456,6 @@ func dbConnect(ctx context.Context) *pgxpool.Pool {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
-	}
-	if err != nil {
-		panic(err)
 	}
 	return conn
 }

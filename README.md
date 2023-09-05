@@ -20,6 +20,12 @@ Install `sqlc` as a global command line utility:
 go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 ``` 
 
+Install `migrate` as a global command line utility:
+
+```
+go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+```
+
 Note that sqlc is not a runtime dependency, it's just a tool that helps you to generate boilerplate code from SQL queries.
 
 Start postgres:

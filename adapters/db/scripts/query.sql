@@ -1,9 +1,12 @@
 -- name: GetAdAccounts :many
 SELECT * FROM ad_account;
 
+--#region
 -- name: GetCampaignsForAdAccount :many
 SELECT * FROM campaign WHERE ad_account_id = $1;
+--#endregion
 
+--#region
 -- name: AggregateMetricsForCampaign :one
 SELECT
   campaign.id,
@@ -41,3 +44,4 @@ DELETE FROM campaign;
 
 -- name: ClearAdAccounts :exec
 DELETE FROM ad_account;
+--#endregion
